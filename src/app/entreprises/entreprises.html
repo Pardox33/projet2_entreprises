@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <table style="border-collapse: separate ; border-spacing: 20px ">
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Secteur</th>
+                    <th>Chiffre d'Affaires (M$)</th>
+                    <th>Date Création</th>
+                </tr>
+                @for (entreprise of entreprises; track entreprise){
+                <tbody>
+                    <tr>
+                        <td>{{entreprise.idEntreprise}}</td>
+                        <td>{{entreprise.nomEntreprise}}</td>
+                        <td>{{entreprise.secteur?.nomSec}}</td>
+                        <td>{{entreprise.chiffreAffaires | number}}</td>
+                        <td>{{entreprise.dateCreation | date:'dd/MM/yyyy'}}</td>
+                        <td><a class="btn btn-danger" (click)="supprimerEntreprise(entreprise)">Supprimer</a></td>
+                        <td><a class="btn btn-success" [routerLink]="['/updateEntreprise',entreprise.idEntreprise]">Modifier</a></td>
+                    </tr>
+                </tbody>
+            }
+            </table>
+        </div>
+    </div>
+</div>

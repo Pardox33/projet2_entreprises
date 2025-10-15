@@ -1,0 +1,51 @@
+<div class="container">
+  <div>
+    <h2>Modifier une Entreprise :</h2>
+  </div>
+
+  <form>
+    <div class="col-sm-2 col-md-2 col-lg-2">
+      <label>ID Entreprise</label>
+      <input readonly type="text" [(ngModel)]="currentEntreprise.idEntreprise"
+             name="idEntreprise" class="form-control">
+    </div>
+
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Nom Entreprise</label>
+      <input type="text" [(ngModel)]="currentEntreprise.nomEntreprise"
+             name="nomEntreprise" class="form-control">
+    </div>
+    
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Secteur</label>
+      <select class="form-control form-control-lg" id="idSec" name="idSec" [(ngModel)]="updatedSecId">
+        @for(sec of secteurs; track sec.idSec)
+        {
+        <option [value]="sec.idSec"> {{sec.nomSec}} </option>
+        }
+      </select>
+
+    </div>
+
+    <div class="col-sm-2 col-md-2 col-lg-2">
+      <label>Chiffre d'Affaires (M$)</label>
+      <input type="number" [(ngModel)]="currentEntreprise.chiffreAffaires"
+             name="chiffreAffaires" class="form-control">
+    </div>
+
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Date de Création</label>
+      <input type="date"
+             [ngModel]="currentEntreprise.dateCreation | date:'yyyy-MM-dd'"
+             (ngModelChange)="currentEntreprise.dateCreation = $event"
+             name="dateCreation"
+             class="form-control">
+    </div>
+
+    <div class="mt-2">
+      <button type="submit" (click)="updateEntreprise()" class="btn btn-success">
+        Modifier
+      </button>
+    </div>
+  </form>
+</div>
