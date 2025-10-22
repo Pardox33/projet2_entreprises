@@ -1,0 +1,48 @@
+<h1 style="text-align: center;"> Recherche des Entreprises Par Nom</h1>
+<div class="container">
+
+                
+                <form class="form-inline">
+                    <div class="form-group mx-sm-3 mb-3 mt-4 ">
+                        <label>Nom Entreprise en tapant</label>
+                        <input class="form-control" #nom [(ngModel)]="searchTerm" name="searchTerm" >
+                    </div>
+                </form>
+
+                 <form class="form-inline">
+        <div class="form-group mx-sm-3 mb-2 mt-2">
+            <label>Nom Entreprise</label>
+            <input type="text" class="form-control" [(ngModel)]="nomEntreprise" name="nomEntreprise" />
+            <button type="submit" (click)="rechercherEntreprises()" class="btn btn-primary mb-2 ml-2 mt-2">
+                Rechercher
+            </button>
+        </div>
+        </form>
+
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <table style="border-collapse: separate ; border-spacing: 20px ">
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Secteur</th>
+                    <th>Chiffre d'Affaires (M$)</th>
+                    <th>Date Création</th>
+                </tr><!---->
+                @for (entreprise of entreprises | searchFilter : searchTerm ; track entreprise){
+                <tbody>
+                    <tr>
+                        <td>{{entreprise.idEntreprise}}</td>
+                        <td>{{entreprise.nomEntreprise}}</td>
+                        <td>{{entreprise.secteur?.nomSec}}</td>
+                        <td>{{entreprise.chiffreAffaires | number}}</td>
+                        <td>{{entreprise.dateCreation | date:'dd/MM/yyyy'}}</td>
+                        <!-- <td><a class="btn btn-danger" (click)="supprimerEntreprise(entreprise)">Supprimer</a></td>
+                        <td><a class="btn btn-success" [routerLink]="['/updateEntreprise',entreprise.idEntreprise]">Modifier</a></td> -->
+                    </tr>
+                </tbody>
+            }
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,14 +1,22 @@
-import { Injectable } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { Entreprise } from '../modele/entreprise.model';
 import { Secteur } from '../modele/secteur.model';
+import { of, Observable } from 'rxjs';
+
+
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
+
+
 export class EntrepriseService {
+  
+
   entreprises: Entreprise[];
   entreprise!: Entreprise;
   secteurs: Secteur[];
+  entreprisesRecherche!: Entreprise[];
 
   constructor() {
     this.secteurs = [
@@ -63,5 +71,22 @@ export class EntrepriseService {
   consulterSecteur(id: number): Secteur {
     return this.secteurs.find(cat => cat.idSec == id)!;
   }
+  rechercherParSecteur(idSec: number): Entreprise[] {
+    this.entreprisesRecherche = [];
+    this.entreprises.forEach((cur, index) => {
+      if (cur.secteur?.idSec == idSec) {
+        this.entreprisesRecherche.push(cur);
+      }
+    });
+    return this.entreprisesRecherche;
+  }
+
+  rechercherParNom(nom: string): Observable<Entreprise[]> {
+    const entreprisesFiltrees = this.entreprises.filter(ent =>
+      ent.nomEntreprise.toLowerCase().includes(nom.toLowerCase())
+    );
+    return of(entreprisesFiltrees);
+  }
+
 }
 
