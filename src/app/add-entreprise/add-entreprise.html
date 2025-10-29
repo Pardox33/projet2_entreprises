@@ -2,44 +2,127 @@
   <div>
     <h2>Ajouter une Entreprise :</h2>
   </div>
-  <form>
+
+  <form [formGroup]="myForm" (ngSubmit)="addEntreprise()">
+
+    <!-- ID Entreprise -->
     <div class="col-sm-2 col-md-2 col-lg-2">
       <label>ID Entreprise</label>
-      <input type="text" [(ngModel)]="newEntreprise.idEntreprise"
-             name="idEntreprise" class="form-control">
-    </div>
+      <input type="number"
+             formControlName="idEntreprise"
+             [(ngModel)]="newEntreprise.idEntreprise"
+             name="idEntreprise"
+             class="form-control">
 
-    <div class="col-sm-4 col-md-4 col-lg-4">
-      <label>Nom Entreprise</label>
-      <input type="text" [(ngModel)]="newEntreprise.nomEntreprise" name="nomEntreprise" class="form-control">
+      @if (myForm.controls['idEntreprise'].hasError('required') 
+          && myForm.controls['idEntreprise'].touched) {
+        <span class="text-danger">ID Entreprise est obligatoire !</span>
+      }
+      @if (idExiste(newEntreprise.idEntreprise)
+      && myForm.controls['idEntreprise'].touched) {
+      <span class="text-danger">Cet ID existe déjà !</span>
+      }
       </div>
       
+      
+      
       <div class="col-sm-4 col-md-4 col-lg-4">
-        <label>Secteur</label>
-        <select class="form-control form-control-lg" id="idSec" name="idSec" [(ngModel)]="newIdSec">
-          @for(sec of secteurs; track sec.idSec){
-            <option [value]="sec.idSec"> {{sec.nomSec}} </option>
-          }
-        </select>
+        <label>Nom Entreprise</label>
+        <input type="text" formControlName="nomEntreprise" [(ngModel)]="newEntreprise.nomEntreprise" name="nomEntreprise"
+          class="form-control">
+      
+        @if (myForm.controls['nomEntreprise'].hasError('required')
+        && myForm.controls['nomEntreprise'].touched) {
+        <span class="text-danger">Nom obligatoire !</span>
+        }
+        @if (nomExiste(newEntreprise.nomEntreprise)
+        && myForm.controls['nomEntreprise'].touched) {
+        <span class="text-danger">Ce nom d'entreprise existe déjà !</span>
+        }
       </div>
 
-    <div class="col-sm-2 col-md-2 col-lg-2">
-      <label>Chiffre d'Affaires (M$)</label>
-      <input type="number" [(ngModel)]="newEntreprise.chiffreAffaires"
-             name="chiffreAffaires" class="form-control">
-    </div>
+
 
     <div class="col-sm-4 col-md-4 col-lg-4">
-      <label>Date Création</label>
-      <input type="date" [(ngModel)]="newEntreprise.dateCreation"
-             name="dateCreation" class="form-control">
+      <label>Secteur</label>
+      <select class="form-control form-control-lg"
+              formControlName="secteur"
+              [(ngModel)]="newIdSec"
+              name="idSec">
+        @for(sec of secteurs; track sec.idSec){
+          <option [value]="sec.idSec">{{sec.nomSec}}</option>
+        }
+      </select>
+      @if (myForm.controls['secteur'].hasError('required')
+          && myForm.controls['secteur'].touched) {
+        <span class="text-danger">Veuillez choisir un secteur !</span>
+      }
     </div>
 
+
+    
+    <div class="col-sm-2 col-md-2 col-lg-2">
+      <label>Chiffre d'Affaires (M$)</label>
+      <input type="text"
+             formControlName="chiffreAffaires"
+             [(ngModel)]="newEntreprise.chiffreAffaires"
+             name="chiffreAffaires"
+             class="form-control">
+    </div>
+    @if (myForm.controls['chiffreAffaires'].hasError('required')
+      && myForm.controls['chiffreAffaires'].touched) {
+      <span class="text-danger">chiffre d'affaire obligatoire!</span>
+      }
+       @if (myForm.controls['chiffreAffaires'].hasError('pattern')
+        && myForm.controls['chiffreAffaires'].touched) {
+        <span class="text-danger"> Le chiffre d'affaire doit etre un nombre !</span>
+      }
+      @if (myForm.controls['chiffreAffaires'].hasError('minlength')
+        && myForm.controls['chiffreAffaires'].touched) {
+        <span class="text-danger"> Minimum 3 caractères !</span>
+      }
+
+
+  
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Date Création</label>
+      <input type="date"
+             formControlName="dateCreation"
+             [(ngModel)]="newEntreprise.dateCreation"
+             name="dateCreation"
+             class="form-control">
+    </div>
+    @if (myForm.controls['dateCreation'].hasError('required')
+      && myForm.controls['dateCreation'].touched) {
+      <span class="text-danger">date de création obligatoire !</span>
+      }
+    
+
+
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Email Entreprise</label>
+      <input type="email" formControlName="email" [(ngModel)]="newEntreprise.emailEntreprise" name="email"
+        class="form-control">
+      @if (myForm.controls['email'].hasError('required')
+      && myForm.controls['email'].touched) {
+      <span class="text-danger">Email obligatoire !</span>
+      }
+      @if (myForm.controls['email'].hasError('pattern')
+      && myForm.controls['email'].touched) {
+      <span class="text-danger">Format email invalide !</span>
+      }
+    </div>
+
+
+
     <div class="mt-2">
-      <button type="submit" (click)="addEntreprise()" class="btn btn-success">
+      <button type="submit"
+      (click)="addEntreprise()"
+        class="btn btn-success"
+        [disabled]="myForm.invalid">
         Ajouter
-        <!--<div><h3>{{message}}</h3></div>-->
       </button>
     </div>
+
   </form>
 </div>

@@ -1,7 +1,7 @@
 import { Component, Injectable } from '@angular/core';
 import { Entreprise } from '../modele/entreprise.model';
 import { Secteur } from '../modele/secteur.model';
-import { of, Observable } from 'rxjs';
+// import { of, Observable } from 'rxjs';
 
 
 
@@ -28,12 +28,12 @@ export class EntrepriseService {
       { idSec: 6, nomSec: "Espace extra-atmosphérique" }
     ];
     this.entreprises = [
-      { idEntreprise: 1, nomEntreprise: "Apple", secteur: { idSec: 1, nomSec: "Technologie" }, chiffreAffaires: 394000, dateCreation: new Date("04/01/1976") },
-      { idEntreprise: 2, nomEntreprise: "Ubisoft", secteur: { idSec: 2, nomSec: "Jeux vidéo" }, chiffreAffaires: 2300, dateCreation: new Date("03/12/1986") },
-      { idEntreprise: 3, nomEntreprise: "Adidas", secteur: { idSec: 3, nomSec: "Sport" }, chiffreAffaires: 21000, dateCreation: new Date("08/18/1949") },
-      { idEntreprise: 4, nomEntreprise: "Netflix", secteur: { idSec: 4, nomSec: "Média" }, chiffreAffaires: 31000, dateCreation: new Date("08/29/1997") },
-      { idEntreprise: 5, nomEntreprise: "Emirates", secteur:{ idSec: 5, nomSec: "Transport aérien" }, chiffreAffaires: 26000, dateCreation: new Date("10/25/1985") },
-      { idEntreprise: 6, nomEntreprise: "SpaceX", secteur: { idSec: 6, nomSec: "Espace extra-atmosphérique" }, chiffreAffaires: 10000, dateCreation: new Date("03/14/2002") }
+      { idEntreprise: 1, nomEntreprise: "Apple", secteur: { idSec: 1, nomSec: "Technologie" }, chiffreAffaires: 394000, dateCreation: new Date("04/01/1976"), emailEntreprise: "contact@apple.com" },
+      { idEntreprise: 2, nomEntreprise: "Ubisoft", secteur: { idSec: 2, nomSec: "Jeux vidéo" }, chiffreAffaires: 2300, dateCreation: new Date("03/12/1986"), emailEntreprise: "info@ubisoft.com" },
+      { idEntreprise: 3, nomEntreprise: "Adidas", secteur: { idSec: 3, nomSec: "Sport" }, chiffreAffaires: 21000, dateCreation: new Date("08/18/1949"), emailEntreprise: "service@adidas.com" },
+      { idEntreprise: 4, nomEntreprise: "Netflix", secteur: { idSec: 4, nomSec: "Média" }, chiffreAffaires: 31000, dateCreation: new Date("08/29/1997"), emailEntreprise: "support@netflix.com" },
+      { idEntreprise: 5, nomEntreprise: "Emirates", secteur: { idSec: 5, nomSec: "Transport aérien" }, chiffreAffaires: 26000, dateCreation: new Date("10/25/1985"), emailEntreprise: "contact@emirates.com" },
+      { idEntreprise: 6, nomEntreprise: "SpaceX", secteur: { idSec: 6, nomSec: "Espace extra-atmosphérique" }, chiffreAffaires: 10000, dateCreation: new Date("03/14/2002"), emailEntreprise: "hello@spacex.com" }
     ];
   }
 
@@ -81,11 +81,11 @@ export class EntrepriseService {
     return this.entreprisesRecherche;
   }
 
-  rechercherParNom(nom: string): Observable<Entreprise[]> {
+  rechercherParNom(nom: string): Entreprise[] {
     const entreprisesFiltrees = this.entreprises.filter(ent =>
       ent.nomEntreprise.toLowerCase().includes(nom.toLowerCase())
     );
-    return of(entreprisesFiltrees);
+    return (entreprisesFiltrees);
   }
 
 }

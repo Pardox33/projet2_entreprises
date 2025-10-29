@@ -8,6 +8,7 @@
                     <th>Secteur</th>
                     <th>Chiffre d'Affaires (M$)</th>
                     <th>Date Création</th>
+                    <th>Email</th>
                 </tr>
                 @for (entreprise of entreprises; track entreprise){
                 <tbody>
@@ -17,6 +18,7 @@
                         <td>{{entreprise.secteur?.nomSec}}</td>
                         <td>{{entreprise.chiffreAffaires | number}}</td>
                         <td>{{entreprise.dateCreation | date:'dd/MM/yyyy'}}</td>
+                        <td>{{entreprise.emailEntreprise}}</td>
                         <td><a class="btn btn-danger" (click)="supprimerEntreprise(entreprise)">Supprimer</a></td>
                         <td><a class="btn btn-success" [routerLink]="['/updateEntreprise',entreprise.idEntreprise]">Modifier</a></td>
                     </tr>

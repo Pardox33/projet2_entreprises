@@ -7,4 +7,5 @@ export class Entreprise {
   secteur?: Secteur;       
   chiffreAffaires!: number; 
   dateCreation!: Date;
+  emailEntreprise!: string;
 }

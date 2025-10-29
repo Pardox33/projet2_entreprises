@@ -1,51 +1,90 @@
 <div class="container">
   <div>
-    <h2>Modifier une Entreprise :</h2>
+    <h2>Modifier :</h2>
+  </div>
+  
+<form [formGroup]="myForm">
+  <div class="col-sm-2 col-md-2 col-lg-2">
+    <label>ID Entreprise</label>
+    <input type="text" formControlName="idEntreprise" class="form-control" readonly>
   </div>
 
-  <form>
-    <div class="col-sm-2 col-md-2 col-lg-2">
-      <label>ID Entreprise</label>
-      <input readonly type="text" [(ngModel)]="currentEntreprise.idEntreprise"
-             name="idEntreprise" class="form-control">
-    </div>
 
-    <div class="col-sm-4 col-md-4 col-lg-4">
-      <label>Nom Entreprise</label>
-      <input type="text" [(ngModel)]="currentEntreprise.nomEntreprise"
-             name="nomEntreprise" class="form-control">
-    </div>
-    
-    <div class="col-sm-4 col-md-4 col-lg-4">
-      <label>Secteur</label>
-      <select class="form-control form-control-lg" id="idSec" name="idSec" [(ngModel)]="updatedSecId">
-        @for(sec of secteurs; track sec.idSec)
-        {
-        <option [value]="sec.idSec"> {{sec.nomSec}} </option>
-        }
-      </select>
 
-    </div>
+  <div class="col-sm-4 col-md-4 col-lg-4">
+    <label>Nom Entreprise</label>
+    <input type="text" formControlName="nomEntreprise" class="form-control">
+    @if (myForm.controls['nomEntreprise'].hasError('required') && myForm.controls['nomEntreprise'].touched) {
+      <span class="text-danger">Nom obligatoire !</span>
+    }
+  </div>
 
-    <div class="col-sm-2 col-md-2 col-lg-2">
-      <label>Chiffre d'Affaires (M$)</label>
-      <input type="number" [(ngModel)]="currentEntreprise.chiffreAffaires"
-             name="chiffreAffaires" class="form-control">
-    </div>
 
-    <div class="col-sm-4 col-md-4 col-lg-4">
-      <label>Date de Création</label>
-      <input type="date"
-             [ngModel]="currentEntreprise.dateCreation | date:'yyyy-MM-dd'"
-             (ngModelChange)="currentEntreprise.dateCreation = $event"
-             name="dateCreation"
-             class="form-control">
-    </div>
 
-    <div class="mt-2">
-      <button type="submit" (click)="updateEntreprise()" class="btn btn-success">
-        Modifier
-      </button>
-    </div>
-  </form>
-</div>
+  <div class="col-sm-4 col-md-4 col-lg-4">
+    <label>Secteur</label>
+    <select formControlName="secteur" class="form-control">
+      @for(sec of secteurs; track sec.idSec){
+        <option [value]="sec.idSec">{{sec.nomSec}}</option>
+      }
+    </select>
+    @if (myForm.controls['secteur'].hasError('required') && myForm.controls['secteur'].touched) {
+      <span class="text-danger">Secteur obligatoire !</span>
+    }
+  </div>
+
+
+
+
+  <div class="col-sm-2 col-md-2 col-lg-2">
+    <label>Chiffre d'Affaires (M$)</label>
+    <input type="text" formControlName="chiffreAffaires" class="form-control">
+    @if (myForm.controls['chiffreAffaires'].hasError('required') && myForm.controls['chiffreAffaires'].touched) {
+      <span class="text-danger">Chiffre d'affaires obligatoire !</span>
+    }
+     @if (myForm.controls['chiffreAffaires'].hasError('pattern')
+        && myForm.controls['chiffreAffaires'].touched) {
+        <span class="text-danger"> Le chiffre d'affaire doit etre un nombre !</span>
+      }
+    @if (myForm.controls['chiffreAffaires'].hasError('minlength') && myForm.controls['chiffreAffaires'].touched) {
+      <span class="text-danger">Minimum 3 caractères !</span>
+    }
+  </div>
+
+
+
+
+  <div class="col-sm-4 col-md-4 col-lg-4">
+    <label>Date de Création</label>
+    <input type="date" formControlName="dateCreation" class="form-control">
+    @if (myForm.controls['dateCreation'].hasError('required') && myForm.controls['dateCreation'].touched) {
+      <span class="text-danger">Date obligatoire !</span>
+    }
+  </div>
+
+
+
+
+  <div class="col-sm-4 col-md-4 col-lg-4">
+    <label>Email</label>
+    <input type="email" formControlName="email" class="form-control">
+    @if (myForm.controls['email'].hasError('required') && myForm.controls['email'].touched) {
+      <span class="text-danger">Email obligatoire !</span>
+    }
+    @if (myForm.controls['email'].hasError('pattern') && myForm.controls['email'].touched) {
+      <span class="text-danger">Email invalide !</span>
+    }
+  </div>
+
+
+
+
+  <div class="mt-2">
+    <button type="submit"
+            class="btn btn-success"
+            (click)="updateEntreprise()"
+            [disabled]="myForm.invalid">
+      Modifier
+    </button>
+  </div>
+</form>

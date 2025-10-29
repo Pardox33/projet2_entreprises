@@ -26,12 +26,9 @@ ngOnInit(): void {
 }
 
 rechercherEntreprises() {
-  this.entrepriseService.rechercherParNom(this.nomEntreprise)
-    .subscribe(entreprises => {
-      console.log(entreprises);
-      this.entreprises = entreprises;
-    });
-}
+  this.entreprises=this.entrepriseService.rechercherParNom(this.nomEntreprise)
+   }
+
 
  onKeyUp(filterText: string) {
   this.entreprises = this.allEntreprises.filter(item =>
