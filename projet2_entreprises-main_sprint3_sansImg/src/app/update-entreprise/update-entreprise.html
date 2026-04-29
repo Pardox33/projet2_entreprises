@@ -1,0 +1,115 @@
+<div style="margin-left:37%;" class="container">
+  <h1>Modifier une Entreprise :</h1><br>
+
+  <form [formGroup]="entrepriseForm">
+
+    <div class="col-sm-2 col-md-2 col-lg-2">
+      <label>ID Entreprise</label>
+      <!-- ✅ readonly sans ngModel ni formControlName -->
+      <input readonly type="text" [value]="currentEntreprise.idEnt"
+             class="form-control">
+    </div>
+
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Nom Entreprise</label>
+      <!-- ✅ formControlName seul, pas de [(ngModel)] -->
+      <input type="text" formControlName="nomEnt" class="form-control">
+      @if (entrepriseForm.controls['nomEnt']?.hasError('required') && entrepriseForm.controls['nomEnt']?.touched) {
+        <div class="text-danger">Nom obligatoire</div>
+      }
+      @if (entrepriseForm.controls['nomEnt']?.hasError('minlength') && entrepriseForm.controls['nomEnt']?.touched) {
+        <div class="text-danger">Nom doit contenir au minimum 3 caractères</div>
+      }
+    </div>
+
+    <div class="col-sm-2 col-md-2 col-lg-2">
+      <label>Chiffre d'Affaires</label>
+      <input type="number" formControlName="chiffreAff" class="form-control">
+      @if (entrepriseForm.controls['chiffreAff']?.hasError('required') && entrepriseForm.controls['chiffreAff']?.touched) {
+        <div class="text-danger">Chiffre d'affaires obligatoire</div>
+      }
+    </div>
+
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Email</label>
+      <input type="text" formControlName="email" class="form-control">
+      @if (entrepriseForm.controls['email']?.hasError('required') && entrepriseForm.controls['email']?.touched) {
+        <div class="text-danger">Email obligatoire</div>
+      }
+      @if (entrepriseForm.controls['email']?.hasError('email') && entrepriseForm.controls['email']?.touched) {
+        <div class="text-danger">Email invalide</div>
+      }
+    </div>
+
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Date Création</label>
+      <!-- ✅ formControlName seul — plus de pipe date ici, c'est géré dans le TS -->
+      <input type="date" formControlName="dateCre" class="form-control">
+      @if (entrepriseForm.controls['dateCre']?.hasError('required') && entrepriseForm.controls['dateCre']?.touched) {
+        <div class="text-danger">Date obligatoire</div>
+      }
+    </div>
+
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Secteur</label>
+      <!-- ✅ formControlName seul -->
+      <select class="form-control" formControlName="secteur">
+        @for (sec of secteurs; track sec.idSec) {
+          <option [value]="sec.idSec">{{ sec.nomSec }}</option>
+        }
+      </select>
+      @if (entrepriseForm.controls['secteur']?.hasError('required') && entrepriseForm.controls['secteur']?.touched) {
+        <div class="text-danger">Secteur obligatoire</div>
+      }
+    </div>
+
+    <div class="col-sm-16 col-md-16 col-lg-16" style="width:38.7%">
+      <label class="mb-2">Image :</label>
+      <input type="file" (change)="onImageUpload($event)" class="form-control">
+    </div>
+
+    <div class="col-sm-16 col-md-16 col-lg-16">
+      <img [src]="myImage" class="card-img-top img-fluid rounded-start"
+           style="width:500px; height:300px" />
+    </div>
+
+    <div class="mt-2">
+      <button type="button" (click)="onAddImageEntreprise()"
+              class="btn btn-success">Ajouter Image</button>
+    </div>
+
+    <div class="card shadow mb-4 container" style="max-width:50%; margin-left:-2%">
+      <div class="card-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th style="width:80%">Images</th>
+              <th style="width:20%"></th>
+            </tr>
+          </thead>
+          @for (img of currentEntreprise.images; track img.idImage) {
+          <tbody>
+            <tr>
+              <td>
+                <img class="card-img-top img-responsive"
+                     src="{{ 'data:' + img.type + ';base64,' + img.image }}"
+                     style="height:50px; width:100px">
+              </td>
+              <td style="text-align:right">
+                <a class="btn btn-danger" (click)="supprimerImage(img)">Supprimer</a>
+              </td>
+            </tr>
+          </tbody>
+          }
+        </table>
+      </div>
+    </div>
+
+    <div class="mt-2">
+      <button type="submit" (click)="updateEntreprise()"
+              [disabled]="entrepriseForm.invalid"
+              class="btn btn-success">Modifier</button>
+    </div>
+
+  </form>
+</div>

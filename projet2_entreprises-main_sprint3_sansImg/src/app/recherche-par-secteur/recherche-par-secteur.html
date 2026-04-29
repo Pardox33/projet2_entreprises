@@ -1,0 +1,61 @@
+<h1 style="text-align: center;">Recherche d’entreprises par secteur</h1>
+
+<div class="container">
+
+  <div class="form-group mt-3 mb-3">
+    <label>Sélectionnez un secteur :</label>
+    <select id="idSec" name="idSec" class="form-control" [(ngModel)]="idSec" (change)="onChange()">
+      <option value="">-- Choisissez un secteur --</option>
+      @for (s of secteurs; track s.idSec) {
+        <option [value]="s.idSec">{{ s.nomSec }}</option>
+      }
+    </select>
+  </div>
+
+
+  <div *ngIf="idSec && entreprises.length > 0; else aucunResultat">
+    <table class="table table-bordered table-striped mt-3">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Secteur</th>
+          <th>Chiffre d'Affaires (M$)</th>
+          <th>Date de Création</th>
+          <th>Email</th>
+          @if(authService.isAdmin()) {
+          <th>Actions</th>
+          }
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (e of entreprises; track e.idEnt) {
+        <tr>
+          <td>{{ e.idEnt}}</td>
+          <td>{{ e.nomEnt }}</td>
+          <td>{{ e.secteur?.nomSec }}</td>
+          <td>{{ e.chiffreAff }}</td>
+          <td>{{ e.dateCre | date:'yyyy-MM-dd' }}</td>
+          <td>{{ e.email }}</td>
+          @if(authService.isAdmin()) {
+          <td>
+            <button class="btn btn-success btn-sm me-2" (click)="modifierEntreprise(e)">
+              Modifier
+            </button>
+            <button class="btn btn-danger btn-sm" (click)="supprimerEntreprise(e)">
+              Supprimer
+            </button>
+          </td>
+          }
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+
+  <ng-template #aucunResultat>
+    <p *ngIf="idSec">Aucune entreprise trouvée pour ce secteur.</p>
+  </ng-template>
+</div>

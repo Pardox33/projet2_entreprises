@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <h1 style="text-align:center">La liste des Entreprises</h1>
+      <hr>
+      <table class="table table-striped">
+        <thead>
+          @if (entreprises && entreprises.length > 0) {
+          <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Secteur</th>
+            <th>Chiffre d'Affaires</th>
+            <th>Email</th>
+            <th>Image</th>
+            <th>Date Création</th>
+            @if (authService.isAdmin()) {
+              <th></th>
+              <th></th>
+            }
+          </tr>
+          }
+        </thead>
+        @for (ent of entreprises; track ent.idEnt) {
+        <tbody>
+          <tr>
+            <td>{{ ent.idEnt }}</td>
+            <td>{{ ent.nomEnt }}</td>
+            <td>{{ ent.secteur?.nomSec || '—' }}</td>
+            <td>{{ ent.chiffreAff | number }}</td>
+            <td>{{ ent.email }}</td>
+            <td>
+              <!-- ✅ Exactement comme dans joueurs.html -->
+              @if (ent.imageStr) {
+                <img class="card-img-top img-responsive"
+                     src="{{ ent.imageStr }}"
+                     style="height:50px; width:100px">
+              } @else {
+                <span style="color:#aaa; font-size:12px;">No image</span>
+              }
+            </td>
+            <td>{{ ent.dateCre | date:'dd/MM/yyyy' }}</td>
+            @if (authService.isAdmin()) {
+            <td>
+              <a class="btn btn-success btn-sm"
+                 [routerLink]="['/updateEntreprise', ent.idEnt]">Modifier</a>
+            </td>
+            <td>
+              <a class="btn btn-danger btn-sm"
+                 (click)="supprimerEntreprise(ent)">Supprimer</a>
+            </td>
+            }
+          </tr>
+        </tbody>
+        }
+        @empty {
+          <tr><td colspan="8" style="text-align:center; color:red">Aucune entreprise trouvée!</td></tr>
+        }
+      </table>
+    </div>
+  </div>
+</div>

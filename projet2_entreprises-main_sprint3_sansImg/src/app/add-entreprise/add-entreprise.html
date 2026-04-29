@@ -1,0 +1,78 @@
+<div style="margin-left:37%;" class="container">
+  <h1>Ajouter une Entreprise :</h1><br>
+
+  <form [formGroup]="entrepriseForm">
+
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Nom Entreprise</label>
+      <input type="text" [(ngModel)]="newEntreprise.nomEnt"
+             formControlName="nomEnt" name="nomEnt" class="form-control">
+      @if (entrepriseForm.controls['nomEnt']?.hasError('required') && entrepriseForm.controls['nomEnt']?.touched) {
+        <div class="text-danger">Nom est obligatoire</div>
+      }
+      @if (entrepriseForm.controls['nomEnt']?.hasError('minlength') && entrepriseForm.controls['nomEnt']?.touched) {
+        <div class="text-danger">Nom doit contenir au minimum 3 caractères</div>
+      }
+    </div>
+
+    <div class="col-sm-2 col-md-2 col-lg-2">
+      <label>Chiffre d'Affaires</label>
+      <input type="number" [(ngModel)]="newEntreprise.chiffreAff"
+             formControlName="chiffreAff" name="chiffreAff" class="form-control">
+      @if (entrepriseForm.controls['chiffreAff']?.hasError('required') && entrepriseForm.controls['chiffreAff']?.touched) {
+        <div class="text-danger">Chiffre d'affaires obligatoire</div>
+      }
+    </div>
+
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Email</label>
+      <input type="text" [(ngModel)]="newEntreprise.email"
+             formControlName="email" name="email" class="form-control">
+      @if (entrepriseForm.controls['email']?.hasError('required') && entrepriseForm.controls['email']?.touched) {
+        <div class="text-danger">Email obligatoire</div>
+      }
+      @if (entrepriseForm.controls['email']?.hasError('email') && entrepriseForm.controls['email']?.touched) {
+        <div class="text-danger">Email invalide</div>
+      }
+    </div>
+
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Date Création</label>
+      <input type="date" [(ngModel)]="newEntreprise.dateCre"
+             formControlName="dateCre" name="dateCre" class="form-control">
+      @if (entrepriseForm.controls['dateCre']?.hasError('required') && entrepriseForm.controls['dateCre']?.touched) {
+        <div class="text-danger">Date obligatoire</div>
+      }
+    </div>
+
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Secteur</label>
+      <select class="form-control" [(ngModel)]="newIdSec"
+              formControlName="secteur" name="idSec">
+        @for (sec of secteurs; track sec.idSec) {
+          <option [value]="sec.idSec">{{ sec.nomSec }}</option>
+        }
+      </select>
+      @if (entrepriseForm.controls['secteur']?.hasError('required') && entrepriseForm.controls['secteur']?.touched) {
+        <div class="text-danger">Secteur obligatoire</div>
+      }
+    </div>
+
+   
+    <div class="col-sm-16 col-md-16 col-lg-16" style="max-width:38.75%">
+      <label class="mb-2">Image :</label>
+      <input type="file" (change)="onImageUpload($event)" name="logo" class="form-control">
+    </div>
+    <div class="col-sm-16 col-md-16 col-lg-16">
+      <img [src]="imagePath" class="card-img-top img-fluid rounded-start"
+           style="width:500px; height:300px" />
+    </div>
+
+    <div class="mt-2">
+      <button type="submit" (click)="addEntreprise()"
+              class="btn btn-success"
+              [disabled]="entrepriseForm.invalid">Ajouter</button>
+    </div>
+
+  </form>
+</div>

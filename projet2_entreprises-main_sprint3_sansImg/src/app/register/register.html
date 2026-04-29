@@ -1,0 +1,81 @@
+<div class="container mt-5">
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <h3 class="mb-4">Créer un compte</h3>
+
+            <form [formGroup]="myForm">
+
+                @if (err) {
+                <div class="alert alert-danger">
+                    <strong>{{ err }}</strong>
+                </div>
+                }
+
+                <!-- Username -->
+                <div class="form-group mb-2">
+                    <label>Nom Utilisateur :</label>
+                    <!-- ✅ formControlName only — [(ngModel)] removed -->
+                    <input type="text" formControlName="username" class="form-control">
+                </div>
+                @if (f['username'].hasError('required') && f['username'].touched) {
+                <span class="text-danger">Nom Utilisateur est obligatoire</span>
+                }
+
+                <!-- Email -->
+                <div class="form-group mb-2">
+                    <label>Email :</label>
+                    <input type="text" formControlName="email" class="form-control">
+                </div>
+                @if (f['email'].hasError('required') && f['email'].touched) {
+                <span class="text-danger">Email est obligatoire</span>
+                }
+                @if (f['email'].hasError('email') && f['email'].touched) {
+                <span class="text-danger">Email non valide</span>
+                }
+
+                <!-- Password -->
+                <div class="form-group mb-2">
+                    <label>Mot de passe :</label>
+                    <input type="password" formControlName="password" class="form-control">
+                </div>
+                @if (f['password'].hasError('required') && f['password'].touched) {
+                <span class="text-danger">Mot de passe est obligatoire</span>
+                }
+                @if (f['password'].hasError('minlength') && f['password'].touched) {
+                <span class="text-danger">Mot de passe doit contenir au moins 6 caractères</span>
+                }
+
+                <!-- Confirm Password -->
+                <div class="form-group mb-2">
+                    <label>Confirmer Mot de passe :</label>
+                    <input type="password" formControlName="confirmPassword" class="form-control">
+                </div>
+                @if (f['confirmPassword'].hasError('required') && f['confirmPassword'].touched) {
+                <span class="text-danger">Confirmer mot de passe est obligatoire</span>
+                }
+                @if (f['confirmPassword'].touched &&
+                f['confirmPassword'].value !== f['password'].value) {
+                <span class="text-danger">Les mots de passe ne correspondent pas</span>
+                }
+
+                @if(loading){
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                }
+
+                <button type="button" [disabled]="myForm.invalid" class="btn btn-success mt-3 w-100"
+                    (click)="onRegister()">
+                    S'inscrire
+                </button>
+
+                <p class="mt-2">
+                    Vous avez un compte ? <a routerLink="/login">Se connecter</a>
+                </p>
+
+            </form>
+        </div>
+    </div>
+</div>

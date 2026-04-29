@@ -1,0 +1,81 @@
+<h1 class="text-center mt-3">Recherche des Entreprises par Nom</h1>
+
+<div class="container">
+
+  <!-- Recherche par saisie dynamique -->
+  <form class="form-inline mt-4">
+    <div class="form-group mx-sm-3 mb-3">
+      <label for="searchTerm" class="form-label">Nom Entreprise (en tapant) :</label>
+      <input id="searchTerm"
+             type="text"
+             class="form-control"
+             placeholder="Tapez un nom..."
+             [(ngModel)]="searchTerm"
+             name="searchTerm"
+             (keyup)="onKeyUp(searchTerm)" />
+    </div>
+  </form>
+
+  <!-- Recherche par nom exact -->
+  <form class="form-inline">
+    <div class="form-group mx-sm-3 mb-2 mt-2">
+      <label for="nomEnt" class="form-label">Nom Entreprise :</label>
+      <input id="nomEnt"
+             type="text"
+             class="form-control"
+             [(ngModel)]="nomEnt"
+             name="nomEnt"
+             placeholder="Saisir le nom exact" />
+      <button type="button"
+              (click)="rechercherEntreprises()"
+              class="btn btn-primary mb-2 ms-2 mt-2">
+        Rechercher
+      </button>
+    </div>
+  </form>
+
+  <!-- Résultats -->
+  <div *ngIf="entreprises.length > 0; else aucunResultat" class="card shadow mt-3 mb-4">
+    <div class="card-body">
+      <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Secteur</th>
+            <th>Chiffre d'Affaires (M$)</th>
+            <th>Date de Création</th>
+            <th>Email</th>
+            <th *ngIf="authService.isAdmin()">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let entreprise of entreprises">
+            <td>{{ entreprise.idEnt }}</td>
+            <td>{{ entreprise.nomEnt }}</td>
+            <td>{{ entreprise.secteur?.nomSec }}</td>
+            <td>{{ entreprise.chiffreAff | number }}</td>
+            <td>{{ entreprise.dateCre | date:'dd/MM/yyyy' }}</td>
+            <td>{{ entreprise.email }}</td>
+            <td *ngIf="authService.isAdmin()">
+              <button class="btn btn-success btn-sm me-2" (click)="modifierEntreprise(entreprise)">
+                Modifier
+              </button>
+              <button class="btn btn-danger btn-sm" (click)="supprimerEntreprise(entreprise)">
+                Supprimer
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Message si aucun résultat -->
+  <ng-template #aucunResultat>
+    <p *ngIf="searchTerm || nomEnt" class="mt-3 text-muted">
+      Aucune entreprise trouvée pour ce nom.
+    </p>
+  </ng-template>
+
+</div>
